@@ -77,17 +77,53 @@ define_target "build-avr" do |target|
 			input :elf_file, pattern: /\.out/
 			output :hex_file, pattern: /\.hex/
 
+			apply do |parameters|
+				run!("avr-objcopy",
+						 "-O", "ihex",
+						 parameters[:elf_file],
+						 parameters[:hex_file]
+						)
+			end
 		end
 
 		define Rule, "dfu.erease" do
+			parameter :mmcu, optional: true do |mmcu, args|
+				args[:mmcu] = mmcu || "atmega32u2"
+			end
 
+			apply do |parameters|
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 "erase"
+						)
+			end
 		end
 
 		define Rule, "dfu.flash" do
+			input :hex_file, pattern: /\.hex/
 
+			parameter :mmcu, optional: true do |mmcu, args|
+				args[:mmcu] = mmcu || "atmega32u2"
+			end
+
+			apply do |parameters|
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 parameters[:hex_file]
+						)
+			end
 		end
 
 		define Rule, "dfu.start" do
+			parameter :mmcu, optional: true do |mmcu, args|
+				args[:mmcu] = mmcu || "atmega32u2"
+			end
+
+			apply do |parameters|
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 "start"
+						)
 
 		end
 	end
