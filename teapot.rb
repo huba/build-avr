@@ -13,15 +13,12 @@ define_target "build-avr" do |target|
 			output :object_file
 
 			apply do |parameters|
-				input_root = parameters[:source_file].root
-				puts parameters[:source_file]
-
 				run!("avr-gcc",
 						 "-c",
 						 "-mmcu=" + parameters[:mmcu],
-						 parameters[:source_file].relative_path,
+						 parameters[:source_file],
 						 *environment[:cflags].flatten,
-						 "-o", parameters[:object_file].shortest_path(input_root)
+						 "-o", parameters[:object_file]
 						)
 			end
 		end
