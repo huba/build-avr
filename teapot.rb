@@ -14,7 +14,7 @@ define_target "build-avr" do |target|
 
 			apply do |parameters|
 				input_root = parameters[:source_file].root
-				puts parameters[:source_file].shortest_path(input_root)
+				puts parameters[:source_file]
 
 				run!("avr-gcc",
 						 "-c",
