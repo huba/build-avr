@@ -55,7 +55,7 @@ define_target "build-avr" do |target|
 			parameter :elf, pattern: /\.out/
 
 			output :elf_file, implicit: true do |args|
-				args[:prefix] / args[:elf]
+				args[:build_prefix] / args[:elf]
 			end
 
 			apply do |parameters|
