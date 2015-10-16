@@ -54,7 +54,7 @@ define_target "build-avr" do |target|
 				args[:mmcu] = mmcu || "atmega32u2"
 			end
 
-			parameter :elf
+			parameter :elf, pattern: /\.put/
 
 			output :elf_file, implicit: true do |args|
 				args[:prefix] / args[:elf]
