@@ -12,13 +12,13 @@ define_target "build-avr" do |target|
 
 			output :object_file
 
-			apply do |params|
-				input_root = params[:source_file].root
+			apply do |parameters|
+				input_root = parameters[:source_file].root
 
 				run!("avr-gcc",
 						 "-c",
-						 "-mmcu=" + params[:mmcu],
-						 params[:source_file].relative_path,
+						 "-mmcu=" + parameters[:mmcu],
+						 parameters[:source_file].relative_path,
 						 *environment[:cflags].flatten,
 						 "-o", parameters[:object_file].shortest_path(input_root)
 						)
@@ -32,15 +32,15 @@ define_target "build-avr" do |target|
 
 			output :elf_file, pattern: /\.out/
 
-			apply do |params|
-				input_root = params[:elf_file].root
-				object_files = params[:object_files].collect{|path| path.shortest_path(input_root)}
+			apply do |parameters|
+				input_root = parameters[:elf_file].root
+				object_files = parameters[:object_files].collect{|path| path.shortest_path(input_root)}
 
 				run!("avr-gcc",
-						 "-mmcu=" + params[:mmcu],
+						 "-mmcu=" + parameters[:mmcu],
 						 *environment[:cflags].flatten,
 						 *object_files,
-						 "-o", params[:elf_file],
+						 "-o", parameters[:elf_file],
 						 "-lm"
 						)
 			end
@@ -60,17 +60,17 @@ define_target "build-avr" do |target|
 				args[:prefix] / args[:elf]
 			end
 
-			apply do |params|
-				build_prefix = params[:build_prefix]
+			apply do |parameters|
+				build_prefix = parameters[:build_prefix]
 
-				object_files = params[:source_files].collect do |source_file|
+				object_files = parameters[:source_files].collect do |source_file|
 					object_file = build_prefix + (source_file.relative_path + ".o")
 					fs.mkpath File.dirname(object_file)
 
-					compile source_file: source_file, object_file: object_file, mmcu: params[:mmcu]
+					compile source_file: source_file, object_file: object_file, mmcu: parameters[:mmcu]
 				end
 
-				link object_files: object_files, elf_file: params[:elf_file], mmcu: params[:mmcu]
+				link object_files: object_files, elf_file: parameters[:elf_file], mmcu: parameters[:mmcu]
 			end
 		end
 	end
