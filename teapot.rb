@@ -124,7 +124,7 @@ define_target "build-avr" do |target|
 						 parameters[:mmcu],
 						 "start"
 						)
-
+			end
 		end
 	end
 
