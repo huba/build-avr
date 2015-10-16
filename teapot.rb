@@ -96,6 +96,6 @@ define_target "build-avr" do |target|
 	end
 
 	target.provides "Language/C99" do
-		cflags = "-Os -Wall -Wstrict-prototypes -Wextra -g"
+		cflags %W{-Os -Wall -Wstrict-prototypes -Wextra -g}
 	end
 end
