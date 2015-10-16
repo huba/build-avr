@@ -31,8 +31,7 @@ define_target "build-avr" do |target|
 			output :elf_file, pattern: /\.out/
 
 			apply do |parameters|
-				input_root = parameters[:elf_file].root
-				object_files = parameters[:object_files].collect{|path| path.shortest_path(input_root)}
+				object_files = parameters[:object_files]
 
 				run!("avr-gcc",
 						 "-mmcu=" + parameters[:mmcu],
