@@ -130,6 +130,20 @@ define_target "build-avr" do |target|
 		end
 
 		define Rule, "program.avr" do
+			input :elf_file, pattern: /\.out/
+
+			parameter :hex_file
+
+			parameter :mmcu, optional: true do |mmcu, args|
+				args[:mmcu] = mmcu || "atmega32u2"
+			end
+
+			apply do |parameters|
+				copy elf_file: parameters[:elf_file], hex_file: parameters[:hex_file]
+				erase mmcu: parameters[:mmcu]
+				flash mmcu: parameters[:mmcu], hex_file: parameters[:hex_file]
+				start mmcu: parameters[:mmcu]
+			end
 		end
 	end
 
