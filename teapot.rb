@@ -86,7 +86,7 @@ define_target "build-avr" do |target|
 			end
 		end
 
-		define Rule, "dfu.erease" do
+		define Rule, "erease.dfu" do
 			parameter :mmcu, optional: true do |mmcu, args|
 				args[:mmcu] = mmcu || "atmega32u2"
 			end
@@ -99,7 +99,7 @@ define_target "build-avr" do |target|
 			end
 		end
 
-		define Rule, "dfu.flash" do
+		define Rule, "flash.dfu" do
 			input :hex_file, pattern: /\.hex/
 
 			parameter :mmcu, optional: true do |mmcu, args|
@@ -115,7 +115,7 @@ define_target "build-avr" do |target|
 			end
 		end
 
-		define Rule, "dfu.start" do
+		define Rule, "start.dfu" do
 			parameter :mmcu, optional: true do |mmcu, args|
 				args[:mmcu] = mmcu || "atmega32u2"
 			end
