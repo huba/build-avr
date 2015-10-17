@@ -86,7 +86,7 @@ define_target "build-avr" do |target|
 			end
 		end
 
-		define Rule, "erease.dfu" do
+		define Rule, "erase.dfu" do
 			parameter :mmcu, optional: true do |mmcu, args|
 				args[:mmcu] = mmcu || "atmega32u2"
 			end
