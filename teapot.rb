@@ -94,7 +94,8 @@ define_target "build-avr" do |target|
 			apply do |parameters|
 				run!("dfu-programmer",
 						 parameters[:mmcu],
-						 "erase"
+						 "erase",
+						 "--force"
 						)
 			end
 		end
