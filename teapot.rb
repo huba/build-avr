@@ -109,6 +109,7 @@ define_target "build-avr" do |target|
 			apply do |parameters|
 				run!("dfu-programmer",
 						 parameters[:mmcu],
+						 "flash",
 						 parameters[:hex_file]
 						)
 			end
@@ -125,6 +126,9 @@ define_target "build-avr" do |target|
 						 "start"
 						)
 			end
+		end
+
+		define Rule, "program.avr" do
 		end
 	end
 
