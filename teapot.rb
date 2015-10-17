@@ -139,10 +139,28 @@ define_target "build-avr" do |target|
 			end
 
 			apply do |parameters|
-				copy elf_file: parameters[:elf_file], hex_file: parameters[:hex_file]
-				erase mmcu: parameters[:mmcu]
-				flash mmcu: parameters[:mmcu], hex_file: parameters[:hex_file]
-				start mmcu: parameters[:mmcu]
+				run!("avr-objcopy",
+						 "-O", "ihex",
+						 parameters[:elf_file],
+						 parameters[:hex_file]
+						)
+
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 "erase",
+						 "--force"
+						)
+
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 "flash",
+						 parameters[:hex_file]
+						)
+
+				run!("dfu-programmer",
+						 parameters[:mmcu],
+						 "start"
+						)
 			end
 		end
 	end
